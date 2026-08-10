@@ -12,12 +12,11 @@
                         shellName = "cronus-shell";
                 in
                 {
-                        devShells.${system}.default = pkgs.mkShell {
+                        devShells.${system}.default = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } {
                                 name = shellName;
 
                                 packages = with pkgs; [
                                         git
-                                        clang
                                         gnumake
                                 ];
 
