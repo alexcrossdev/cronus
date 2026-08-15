@@ -1,28 +1,26 @@
 {
-        description = "Cronus development shell";
+	description = "Cronus development shell";
 
-        inputs = {
-                nixpkgs.url = "github:Nixos/nixpkgs/nixos-unstable";
-        };
+	inputs = {
+		nixpkgs.url = "github:Nixos/nixpkgs/nixos-unstable";
+	};
 
-        outputs = { self, nixpkgs }:
-                let
-                        system = "x86_64-linux";
-                        pkgs = nixpkgs.legacyPackages.${system};
-                        shellName = "cronus-shell";
-                in
-                {
-                        devShells.${system}.default = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } {
-                                name = shellName;
+	outputs = { self, nixpkgs }:
+	let
+		system = "x86_64-linux";
+		pkgs = nixpkgs.legacyPackages.${system};
+	in
+	{
+		devShells.${system}.default = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } {
+			packages = with pkgs; [
+				git
+				gnumake
+				bear
+			];
 
-                                packages = with pkgs; [
-                                        git
-                                        gnumake
-                                ];
-
-                                shellHook = ''
-                                        export FLAKE_NAME="${shellName}"
-                                '';
-                        };
-                };
+			shellHook = ''
+				export FLAKE=1
+			'';
+		};
+	};
 }

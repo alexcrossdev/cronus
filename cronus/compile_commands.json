@@ -1,0 +1,23 @@
+[
+  {
+    "file": "src/main.c",
+    "arguments": [
+      "clang",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-MMD",
+      "-MP",
+      "-Iinclude",
+      "-I../libcronus/include",
+      "-c",
+      "-o",
+      "src/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/alex/projects/cronus/cronuscli",
+    "output": "src/main.o"
+  }
+]

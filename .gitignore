@@ -1,5 +1,4 @@
 # Artifacts
 *.o
 *.d
-
-cronus
+*.so
