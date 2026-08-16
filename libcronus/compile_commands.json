@@ -1,6 +1,6 @@
 [
   {
-    "file": "src/test.c",
+    "file": "src/timeline/timeline.c",
     "arguments": [
       "clang",
       "-c",
@@ -14,31 +14,10 @@
       "-MP",
       "-Iinclude",
       "-o",
-      "src/test.o",
-      "src/test.c"
+      "src/timeline/timeline.o",
+      "src/timeline/timeline.c"
     ],
     "directory": "/home/alex/projects/cronus/libcronus",
-    "output": "src/test.o"
-  },
-  {
-    "file": "src/cronus.c",
-    "arguments": [
-      "clang",
-      "-c",
-      "-g",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-Wpedantic",
-      "-fPIC",
-      "-MMD",
-      "-MP",
-      "-Iinclude",
-      "-o",
-      "src/cronus.o",
-      "src/cronus.c"
-    ],
-    "directory": "/home/alex/projects/cronus/libcronus",
-    "output": "src/cronus.o"
+    "output": "src/timeline/timeline.o"
   }
 ]

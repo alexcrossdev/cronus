@@ -10,14 +10,14 @@
       "-Wpedantic",
       "-MMD",
       "-MP",
-      "-Iinclude",
+      "-Isrc",
       "-I../libcronus/include",
       "-c",
       "-o",
       "src/main.o",
       "src/main.c"
     ],
-    "directory": "/home/alex/projects/cronus/cronuscli",
+    "directory": "/home/alex/projects/cronus/cronus",
     "output": "src/main.o"
   }
 ]

@@ -10,4 +10,4 @@ clean:
 
 .PHONY: bear
 bear: clean
-	bear -- $(MAKE) all
+	@$(foreach project, $(PROJECTS), make -C $(project) bear;)
