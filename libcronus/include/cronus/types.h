@@ -1,6 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <threads.h>
 typedef char 			s8;
 typedef short 			s16;
 typedef int 			s32;
@@ -16,5 +17,21 @@ typedef int			b32;
 
 typedef float			f32;
 typedef double			f64;
+
+#define false 0
+#define true 1
+
+#define success 1
+#define failure 0
+
+#if defined(_WIN32) || defined(_WIN64)
+	#define PWINDOWS
+#elif defined(__linux__)
+	#define PLINUX
+#elif defined(__APPLE__) || defined(__MACH__)
+	#define PMAC
+#else
+	#error "Unsupported platform!"
+#endif
 
 #endif
