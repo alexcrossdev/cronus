@@ -1,5 +1,6 @@
 #include "cronus/timeline.h"
 
+#include "cronus/crstring.h"
 #include "cronus/types.h"
 #include "cronus/platform_io.h"
 
@@ -15,11 +16,11 @@ struct timeline {
 	char *working_tree;
 };
 
-static b8 is_valid_timeline(const char *timeline_path)
+b8 is_valid_timeline(const char *path)
 {
 
 	char cronus_path[1024];
-	int written = snprintf(cronus_path, sizeof(cronus_path), "%s/.cronus", timeline_path);
+	int written = snprintf(cronus_path, sizeof(cronus_path), "%s/.cronus", path);
 	if (written < 0 || (size_t)written >= sizeof(cronus_path)) {
 		errno = ENAMETOOLONG;
 		perror("timeline_path");
@@ -28,27 +29,50 @@ static b8 is_valid_timeline(const char *timeline_path)
 
 	struct stat cronus_stats;
 	if (stat(cronus_path, &cronus_stats) != 0) {
-		if (strcmp(".", timeline_path) == 0) {
-			fprintf(stderr, "Not a cronus timeline\n");
-			return failure;
-		}
-
-		fprintf(stderr, "%s: Not a cronus timeline\n", timeline_path);
 		return failure;
 	}
 
 	return success;
 }
 
+timeline *timeline_create(const char *timeline_path, const char *working_tree, b8 is_bare)
+{
+	char *cronus_path = concat(1024, 2, working_tree, "/.cronus");
+	char *absolute = realpath(cronus_path, NULL);
+	if (absolute == NULL) return NULL;
+
+	if (is_valid_dir(cronus_path, false)) {
+		fprintf(stderr, "Reinitializing timeline init in %s\n", absolute);
+		return NULL;
+	}
+
+	(void)is_bare;
+
+	if (!is_valid_dir(timeline_path, true))
+		return NULL;
+
+	if (!dir_create(cronus_path, 0777)) {
+		perror(".cronus");
+		return NULL;
+	}
+
+	printf("Initialized empty timeline in %s\n", absolute);
+	free(absolute);
+
+	timeline *out_timeline = (struct timeline *)malloc(sizeof(timeline));
+
+	return out_timeline;
+}
+
 timeline *timeline_open(const char *timeline_path, const char *working_tree)
 {
-	if (!is_valid_path(timeline_path))
+	if (!is_valid_dir(timeline_path, true))
 		return NULL;
 
 	if (!is_valid_timeline(timeline_path))
 		return NULL;
 
-	if (!is_valid_path(working_tree))
+	if (!is_valid_dir(working_tree, true))
 		return NULL;
 
 	timeline *out_timeline = (struct timeline *)malloc(sizeof(timeline));

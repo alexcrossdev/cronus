@@ -9,7 +9,8 @@ DEPS := $(OBJS:.o=.d)
 
 INCS := -Iinclude
 
-.PHONY: all
+.PHONY: all clean bear install
+
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
@@ -18,12 +19,13 @@ $(TARGET): $(OBJS)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(DFLAGS) $(INCS) -o $@ $<
 
-.PHONY: clean
 clean:
 	rm $(TARGET) $(OBJS) $(DEPS)
 
-.PHONY: bear
 bear: clean
 	bear -- $(MAKE)
+
+install: all
+	sudo cp $(TARGET) /usr/lib
 
 -include $(DEPS)

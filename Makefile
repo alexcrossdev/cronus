@@ -8,6 +8,10 @@ all:
 clean:
 	@$(foreach project, $(PROJECTS), $(MAKE) -C $(project) clean;)
 
+.PHONY: install
+install: clean
+	@$(foreach project, $(PROJECTS), $(MAKE) -C $(project) install;)
+
 .PHONY: bear
 bear:
 	@$(MAKE) -C libcronus bear
