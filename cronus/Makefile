@@ -17,7 +17,7 @@ LDLIBS := -lcronus
 
 .PHONY: all dev release clean bear install
 
-all: release
+all: dev
 
 dev: CFLAGS += -g
 dev: LDFLAGS += \
