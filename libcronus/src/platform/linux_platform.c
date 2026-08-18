@@ -2,7 +2,6 @@
 
 #include "cronus/types.h"
 
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <errno.h>
 #include <stdio.h>
@@ -40,4 +39,30 @@ b8 get_cwd(char *out_cwd, s32 size)
 	}
 
 	return success;
+}
+
+s64 file_size(const char *path)
+{
+	struct stat st;
+	if (lstat(path, &st) != 0) {
+		perror("lstat");
+		return -1;
+	}
+
+	printf("last change time: %li\n", st.st_ctim.tv_sec);
+
+	return st.st_ctim.tv_sec;
+}
+
+s64 file_last_change_time(const char *path)
+{
+	struct stat st;
+	if (lstat(path, &st) != 0) {
+		perror("lstat");
+		return -1;
+	}
+
+	printf("size: %li\n", st.st_size);
+
+	return st.st_size;
 }

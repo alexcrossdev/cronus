@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
+/*
 static char doc[] = "Cronus CLI";
 
 enum ARG_KEYS {
@@ -83,10 +83,10 @@ static error_t parse_sub_opt(int key, char *arg, struct argp_state *state)
 }
 
 static struct argp parse_sub_argp = {parse_sub_options, parse_sub_opt, 0, "Cronus internal parser utilities", 0, 0, 0};
-
+*/
 int main(int argc, char **argv)
 {
-	struct arguments arguments = {
+	/*struct arguments arguments = {
 		.isVerbose = false,
 		.timeline_path = ".",
 		.working_tree = "."
@@ -100,7 +100,11 @@ int main(int argc, char **argv)
 	} else {
 		fprintf(stderr, "cronus: missing or invalid command. See 'cronus --help'.\n");
 		return 1;
-	}
+	}*/
+
+	(void)argc;
+	file_size(argv[1]);
+	file_last_change_time(argv[1]);
 
 	return 0;
 }
