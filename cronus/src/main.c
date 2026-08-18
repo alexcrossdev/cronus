@@ -4,12 +4,13 @@
 #include <cronus/timeline.h>
 
 #include <argp.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-/*
-static char doc[] = "Cronus CLI";
+
+/*static char doc[] = "Cronus CLI";
 
 enum ARG_KEYS {
 	KEY_TIMELINE_PATH = 1000,
@@ -84,8 +85,17 @@ static error_t parse_sub_opt(int key, char *arg, struct argp_state *state)
 
 static struct argp parse_sub_argp = {parse_sub_options, parse_sub_opt, 0, "Cronus internal parser utilities", 0, 0, 0};
 */
+
+void apply_print_path(const char *full_path, const struct dirent *entry)
+{
+	printf("%s\n", full_path);
+	(void)entry;
+}
+
 int main(int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
 	/*struct arguments arguments = {
 		.isVerbose = false,
 		.timeline_path = ".",
@@ -105,6 +115,7 @@ int main(int argc, char **argv)
 	(void)argc;
 	file_size(argv[1]);
 	file_last_change_time(argv[1]);
+	process_file_tree(".", NULL, apply_print_path);
 
 	return 0;
 }
