@@ -53,8 +53,6 @@ s64 file_size(const char *path)
 		return -1;
 	}
 
-	printf("last change time: %li\n", st.st_ctim.tv_sec);
-
 	return st.st_ctim.tv_sec;
 }
 
@@ -65,8 +63,6 @@ s64 file_last_change_time(const char *path)
 		perror("lstat");
 		return -1;
 	}
-
-	printf("size: %li\n", st.st_size);
 
 	return st.st_size;
 }
@@ -87,7 +83,7 @@ void process_file_tree(const char *path, file_filter_fn filter, file_apply_fn ap
 
 		char *sub_path = concat(1024, 3, path, "/", entry->d_name);
 
-		if (entry->d_type == DT_DIR) {
+		if (entry->d_type == DT_DIR && (filter == NULL || filter(entry))) {
 			process_file_tree(sub_path, filter, apply);
 		}
 
