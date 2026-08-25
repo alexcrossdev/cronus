@@ -1,6 +1,6 @@
 TARGET := libcronus.so
 
-CFLAGS := -g -Wall -Wextra -Werror -Wpedantic -fPIC
+CFLAGS := -g -Wall -Wextra -Werror -Wpedantic -fPIC -lcrypto
 DFLAGS := -MMD -MP
 
 SRCS := $(shell find src/ -type f -name "*.c" ! -name "*_platform.c")

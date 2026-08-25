@@ -13,7 +13,7 @@ SRCS := $(shell find src -type f -name "*.c")
 OBJS := $(SRCS:.c=.o)
 DEPS := $(OBJS:.o=.d)
 
-LDLIBS := -lcronus
+LDLIBS := -lcronus -lcrypto
 
 .PHONY: all dev release clean bear install
 

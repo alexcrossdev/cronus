@@ -28,7 +28,7 @@ static int filter(const struct dirent *entry)
 {
 	(void)entry;
 
-	if (strcmp(entry->d_name, ".cronus")) return false;
+	if (strcmp(entry->d_name, ".cronus") == 0) return false;
 	return true;
 }
 

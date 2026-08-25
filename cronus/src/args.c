@@ -1,4 +1,5 @@
 #include "args.h"
+#include <cronus/types.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -6,6 +7,24 @@
 static void args_init(cli_args *args)
 {
 	*args = (cli_args){0};
+}
+
+static b8 parse_option_value(const char *arg, const char *option, const char **value)
+{
+	u32 option_length = strlen(option);
+
+	if (strncmp(arg, option, option_length) != 0)
+		return failure;
+
+	if (arg[option_length] != '=')
+		return failure;
+
+	*value = arg + option_length + 1;
+
+	if (**value == '\0')
+		return failure;
+
+	return true;
 }
 
 b8 cli_args_parse(
@@ -41,6 +60,16 @@ b8 cli_args_parse(
 			continue;
 		}
 
+		if (parse_option_value(
+			arg,
+			"--working-dir",
+			&args->working_dir)) continue;
+
+		if (parse_option_value(
+			arg,
+			"--timeline-dir",
+			&args->timeline_dir)) continue;
+
 		/*
 		 * First non-option argument is the command.
 		 */
@@ -61,8 +90,8 @@ b8 cli_args_parse(
 		 * Remaining positional argument is treated as a path
 		 * unless the command has another meaning for it.
 		 */
-		if (args->path == NULL) {
-			args->path = arg;
+		if (args->timeline_dir == NULL) {
+			args->timeline_dir = arg;
 			continue;
 		}
 
@@ -93,6 +122,10 @@ void cli_args_print_help(void)
 		"  -h, --help           Show this help\n"
 		"  -v, --verbose        Enable verbose output\n"
 		"      --version        Show version\n"
+		"      --timeline-dir=<path>\n"
+		"                       Sets the active timeline dir\n"
+		"      --working-dir=<path>\n"
+		"                       Sets the working directory\n"
 		"\n"
 	);
 }

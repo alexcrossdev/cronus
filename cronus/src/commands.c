@@ -1,56 +1,63 @@
 #include "commands.h"
+#include "cronus/types.h"
 
 #include <cronus/cache.h>
 #include <cronus/timeline.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-static const char *get_path(const cli_args *args)
+static const char *get_timeline_dir(const cli_args *args)
 {
-	if (args->path != NULL)
-		return args->path;
+	if (args->timeline_dir != NULL)
+		return args->timeline_dir;
+
+	return ".";
+}
+
+static const char *get_working_dir(const cli_args *args)
+{
+	if (args->working_dir != NULL)
+		return args->working_dir;
 
 	return ".";
 }
 
 int command_init(const cli_args *args)
 {
-	const char *path = get_path(args);
+	const char *path = get_timeline_dir(args);
+	char *abs_path;
+
+	abs_path = realpath(path, NULL);
+	if (abs_path == NULL)
+		return 1;
 
 	if (args->verbose)
-		printf("Initializing timeline: %s\n", path);
-
-	/*
-	 * Put your timeline initialization here.
-	 *
-	 * For example, once your library exposes an init function:
-	 *
-	 *     timeline_init(path);
-	 */
+		printf("Initializing timeline: %s\n", abs_path);
 
 	printf(
 		"Initialized timeline in %s\n",
-		path
+		abs_path
 	);
+	free(abs_path);
 
 	return 0;
 }
 
 int command_status(const cli_args *args)
 {
-	const char *path = get_path(args);
 
 	timeline *timeline = timeline_open(
-		path,
-		path
+		get_timeline_dir(args),
+		get_working_dir(args)
 	);
 
 	if (timeline == NULL) {
 		fprintf(
 			stderr,
 			"cronus: unable to open timeline: %s\n",
-			path
+			args->timeline_dir
 		);
 
 		return 1;
@@ -118,18 +125,19 @@ int command_status(const cli_args *args)
 
 int command_cache(const cli_args *args)
 {
-	const char *path = get_path(args);
+	const char *timeline_path = get_timeline_dir(args);
+	const char *working_path = get_working_dir(args);
 
 	timeline *timeline = timeline_open(
-		path,
-		path
+		timeline_path,
+		working_path
 	);
 
 	if (timeline == NULL) {
 		fprintf(
 			stderr,
 			"cronus: unable to open timeline: %s\n",
-			path
+			timeline_path
 		);
 
 		return 1;
@@ -167,3 +175,8 @@ int command_cache(const cli_args *args)
 
 	return 0;
 }
+
+/*int command_hash(const cli_args *args)
+{
+	
+}*/

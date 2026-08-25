@@ -7,7 +7,8 @@ typedef struct cli_args {
 	const char *command;
 	const char *subcommand;
 
-	const char *path;
+	const char *timeline_dir;
+	const char *working_dir;
 	const char *message;
 
 	b8 verbose;
