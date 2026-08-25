@@ -3,6 +3,7 @@
 
 #include <cronus/cache.h>
 #include <cronus/timeline.h>
+#include <cronus/hash.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -176,7 +177,14 @@ int command_cache(const cli_args *args)
 	return 0;
 }
 
-/*int command_hash(const cli_args *args)
+int command_hash(const cli_args *args)
 {
-	
-}*/
+	u8 hash[64];
+	sha512_file(args->subcommand, hash);
+	char output[1024];
+	hash_to_hex(hash, 64, output, 1024);
+
+	printf("hash: %s\n", output);
+
+	return 0;
+}

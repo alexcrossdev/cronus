@@ -117,6 +117,7 @@ void cli_args_print_help(void)
 		"  status               Show working tree changes\n"
 		"  cache                Update the cache\n"
 		"  cache read           Read the current cache\n"
+		"  hash <path>          Print out file hash\n"
 		"\n"
 		"Options:\n"
 		"  -h, --help           Show this help\n"

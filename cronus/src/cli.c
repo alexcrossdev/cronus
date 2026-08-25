@@ -28,6 +28,10 @@ static const cli_command commands[] = {
 		.name = "cache",
 		.function = command_cache,
 	},
+	{
+		.name = "hash",
+		.function = command_hash,
+	}
 };
 
 static const size_t command_count =
