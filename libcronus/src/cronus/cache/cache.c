@@ -27,6 +27,8 @@ static blob *cache;
 static int filter(const struct dirent *entry)
 {
 	(void)entry;
+
+	if (strcmp(entry->d_name, ".cronus")) return false;
 	return true;
 }
 
